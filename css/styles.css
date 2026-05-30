@@ -194,6 +194,13 @@ ul {
   transform: translateY(0);
 }
 
+/* Hero must always be visible — never wait for JS */
+.hero__stage,
+.hero .reveal {
+  opacity: 1;
+  transform: none;
+}
+
 .reveal--delay { transition-delay: 0.15s; }
 .reveal--delay-2 { transition-delay: 0.3s; }
 .reveal--delay-3 { transition-delay: 0.45s; }
