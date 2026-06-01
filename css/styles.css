@@ -1132,6 +1132,25 @@ ul {
   min-height: 140px;
 }
 
+.contact__honeypot {
+  display: none;
+}
+
+.form-status {
+  margin-top: 1rem;
+  font-size: 0.9375rem;
+  text-align: center;
+  min-height: 1.25rem;
+}
+
+.form-status--success {
+  color: var(--forest);
+}
+
+.form-status--error {
+  color: var(--terracotta);
+}
+
 /* ============================================
    Footer
    ============================================ */

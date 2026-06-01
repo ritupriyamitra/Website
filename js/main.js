@@ -263,29 +263,59 @@ function initTestimonialCarousel() {
 
 function initContactForm() {
   const form = document.getElementById('contactForm');
+  const status = document.getElementById('formStatus');
+  const submitBtn = document.getElementById('contactSubmit');
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    const accessKey = window.WEB3FORMS_ACCESS_KEY;
+    if (!accessKey || accessKey === 'REPLACE_WITH_YOUR_ACCESS_KEY') {
+      if (status) {
+        status.textContent = 'Form not configured yet — email ritupriya.mitra@gmail.com directly.';
+        status.className = 'form-status form-status--error';
+      }
+      return;
+    }
+
     const formData = new FormData(form);
-    const name = formData.get('name');
-    const email = formData.get('email');
-    const message = formData.get('message');
+    formData.append('access_key', accessKey);
+    formData.append('subject', `New message from ${formData.get('name')}`);
+    formData.append('from_name', 'Ritupriya Mitra Website');
 
-    const subject = encodeURIComponent(`A note from ${name}`);
-    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
+    if (status) {
+      status.textContent = '';
+      status.className = 'form-status';
+    }
 
-    window.location.href = `mailto:ritupriya.mitra@gmail.com?subject=${subject}&body=${body}`;
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await response.json();
 
-    const btn = form.querySelector('button[type="submit"]');
-    const originalText = btn.textContent;
-    btn.textContent = 'Opening email client...';
-    btn.disabled = true;
-
-    setTimeout(() => {
-      btn.textContent = originalText;
-      btn.disabled = false;
-    }, 3000);
+      if (data.success) {
+        form.reset();
+        if (status) {
+          status.textContent = 'Message sent — thank you! Ritupriya will be in touch soon.';
+          status.className = 'form-status form-status--success';
+        }
+      } else {
+        throw new Error(data.message || 'Submission failed');
+      }
+    } catch {
+      if (status) {
+        status.textContent = 'Something went wrong. Please email ritupriya.mitra@gmail.com directly.';
+        status.className = 'form-status form-status--error';
+      }
+    } finally {
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+    }
   });
 }

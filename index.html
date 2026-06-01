@@ -290,6 +290,7 @@
           </div>
         </div>
         <form class="contact__form reveal reveal--delay" id="contactForm">
+          <input type="checkbox" name="botcheck" class="contact__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
           <div class="form-group">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" required placeholder="Your name" autocomplete="name">
@@ -302,7 +303,8 @@
             <label for="message">What's on your mind?</label>
             <textarea id="message" name="message" rows="5" required placeholder="Tell me what's on your mind..."></textarea>
           </div>
-          <button type="submit" class="btn btn--primary btn--full">Send a Note</button>
+          <button type="submit" class="btn btn--primary btn--full" id="contactSubmit">Send a Note</button>
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
         </form>
       </div>
     </div>
@@ -329,6 +331,7 @@
     </div>
   </footer>
 
+  <script src="js/config.js"></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>
