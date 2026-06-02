@@ -271,9 +271,10 @@ function initContactForm() {
     e.preventDefault();
 
     const accessKey = window.WEB3FORMS_ACCESS_KEY;
+    const contactEmail = window.CONTACT_EMAIL || 'ritupriya.mitra.2025@gmail.com';
     if (!accessKey || accessKey === 'REPLACE_WITH_YOUR_ACCESS_KEY') {
       if (status) {
-        status.textContent = 'Form not configured yet — email ritupriya.mitra@gmail.com directly.';
+        status.textContent = `Form not configured yet — email ${contactEmail} directly.`;
         status.className = 'form-status form-status--error';
       }
       return;
@@ -309,8 +310,9 @@ function initContactForm() {
         throw new Error(data.message || 'Submission failed');
       }
     } catch {
+      const contactEmail = window.CONTACT_EMAIL || 'ritupriya.mitra.2025@gmail.com';
       if (status) {
-        status.textContent = 'Something went wrong. Please email ritupriya.mitra@gmail.com directly.';
+        status.textContent = `Something went wrong. Please email ${contactEmail} directly.`;
         status.className = 'form-status form-status--error';
       }
     } finally {
